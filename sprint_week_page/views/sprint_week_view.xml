@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sprint_week_action" model="ir.actions.act_window">
+        <field name="name">Sprint Week</field>
+        <field name="res_model">sprint.week</field>
+        <field name="view_mode">kanban,form,list</field>
+    </record>
+    <record id="sprint_week_form" model="ir.ui.view">
+        <field name="name">sprint.week.kanban</field>
+        <field name="model">sprint.week</field>
+        <field name="arch" type="xml">
+            <p>Hello world</p>
+        </field>
+    </record>
+</odoo>
