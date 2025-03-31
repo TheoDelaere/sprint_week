@@ -7,8 +7,8 @@
         'project',
     ],
     'data': [
-        'views/menu_sprint_week.xml',
         'views/sprint_week_view.xml',
+        'views/menu_sprint_week.xml',
     ],
     'installable': True,
     'application': False,
