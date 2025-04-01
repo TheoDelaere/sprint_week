@@ -1,1 +1,1 @@
-from . import sprint_week
+from . import sprint

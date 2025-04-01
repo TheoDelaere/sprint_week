@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <menuitem name="Sprint Week" id="sprint_week_menu" action="sprint_week_action" parent="project.menu_main_pm" sequence="91"/>
-</odoo>
