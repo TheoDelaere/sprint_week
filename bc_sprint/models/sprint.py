@@ -5,11 +5,13 @@ class Sprint(models.Model):
     _name = "sprint"
     _description = "Sprint"
 
+
     name = fields.Char(string="Sprint Name", required=True)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
     task_ids = fields.One2many('project.task', 'sprint_id', string="Sprint Tasks")
     team_id = fields.Many2one('sprint.team', string="Sprint Team", store=True)
+    color = fields.Integer(string='Color Index', export_string_translation=False)
     show_by_hours_or_number_of_tasks = fields.Selection([
         ('hours', 'Hours'),
         ('tasks', 'Tasks')
@@ -22,6 +24,7 @@ class Sprint(models.Model):
         'res.users', 
         string="Assigned User"
     )
+    state_id = fields.Many2one("state", string="State")
     def available_users(self,toto):
         res = [(1, "zaza")]
         print (toto.name)
@@ -30,16 +33,6 @@ class Sprint(models.Model):
             print (record.id, record.name)
         print (res,"####################################################################################")
         return res
-        
-
-    test = fields.Selection(
-        # [('test1', 'Test 1'),('test2', 'Test 2')],
-        lambda self: self.available_users(self),
-        string="Test")
-
-    
-        
-
     
 
 class SprintTeam(models.Model):
