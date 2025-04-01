@@ -1,6 +1,7 @@
 {
     'name': "BC Sprint",
-    'version': "1.0",
+    'version': "18.0",
+    "license": "AGPL-3",
     'author': "Burniaux Consulting",
     'website': "https://www.burniauxconsulting.com/",
     'category': "Project",
@@ -10,7 +11,8 @@
         'security/ir.model.access.csv',
 
         # views
-        'views/sprint_views.xml',
+        'views/sprint_week_view.xml',
+        'views/sprint_solo_views.xml',
     ],
     'installable': True,
     'application': True,

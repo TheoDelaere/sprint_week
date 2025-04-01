@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kanban view -->
+    <record id="view_sprint_kanban" model="ir.ui.view">
+        <field name="name">sprint.kanban.solo</field>
+        <field name="model">sprint</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="task_ids"/>
+                <field name="color"/>
+                <field name="state_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_global_click">
+                            <div class="oe_kanban_body">
+                                <field style="font-weight: bold;" name="name"/>
+                            </div>
+                            <div class="oe_kanban_footer">
+                                <div class="oe_kanban_footer_left">
+                                    #Left hand footer
+                                </div>
+                                <div class="oe_kanban_footer_right">
+                                    #Right hand footer
+                                </div>
+                            </div>
+                            <div class="oe_clear"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- form view -->
+    <record id="view_sprint_form" model="ir.ui.view">
+        <field name="name">sprint.form</field>
+        <field name="model">sprint</field>
+        <field name="arch" type="xml">
+            <form string="Sprint">
+                <sheet>
+                    <group>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <field name="state_id" readonly="True"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to display sprints in Kanban view -->
+    <record id="action_sprint_solo" model="ir.actions.act_window">
+        <field name="name">Sprints history</field>
+        <field name="res_model">sprint</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="sprints_history" name="Sprints history" parent="sprints_menu" action="action_sprint_solo" sequence="98"/>
+
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_sprint_week_kanban" model="ir.ui.view">
+        <field name="name">sprint.kanban.week</field>
+        <field name="model">sprint</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <field name="name"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sprint_week" model="ir.actions.act_window">
+        <field name="name">Sprints week</field>
+        <field name="res_model">sprint.week</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="sprints_menu" name="Sprint" parent="project.menu_main_pm" action="action_sprint_week" sequence="91"/>
+    <menuitem id="sprint_week" name="Sprint weeks" parent="sprints_menu" action="action_sprint_week" sequence="92"/>
+</odoo>
