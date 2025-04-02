@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Menu -->
+    <menuitem id="sprints_menu" name="Sprint" parent="project.menu_main_pm" sequence="91"/>
+    <menuitem id="sprint_week" name="Sprint weeks" parent="sprints_menu" action="action_sprint_week" sequence="92"/>
+    <menuitem id="sprints_history" name="Sprints history" parent="sprints_menu" action="action_sprint_solo" sequence="98"/>
+</odoo>

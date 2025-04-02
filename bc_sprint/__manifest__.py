@@ -13,6 +13,7 @@
         # views
         'views/sprint_week_view.xml',
         'views/sprint_solo_views.xml',
+        'views/sprint_menu.xml',
     ],
     'installable': True,
     'application': True,

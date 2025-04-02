@@ -60,8 +60,4 @@
         <field name="res_model">sprint</field>
         <field name="view_mode">kanban,list,form</field>
     </record>
-
-    <!-- Menu -->
-    <menuitem id="sprints_history" name="Sprints history" parent="sprints_menu" action="action_sprint_solo" sequence="98"/>
-
 </odoo>
