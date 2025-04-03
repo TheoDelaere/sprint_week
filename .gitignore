@@ -1,0 +1,6 @@
+# Compiled source
+#################
+*.pyc
+bc_sprint/__pycache__/__init__.cpython-312.pyc
+bc_sprint/models/__pycache__/__init__.cpython-312.pyc
+*.pyc
