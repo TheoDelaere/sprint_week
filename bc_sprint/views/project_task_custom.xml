@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project_task_form_stateadd" inherit_id="project.view_task_form2">
+        <xpath expr="//field[@name='tag_ids']" position="after">
+            <field name="state_id"/>
+        </xpath>
+    </record>
+</odoo>

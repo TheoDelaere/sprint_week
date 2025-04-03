@@ -5,7 +5,6 @@ class Sprint(models.Model):
     _name = "sprint"
     _description = "Sprint"
 
-
     name = fields.Char(string="Sprint Name", required=True)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
@@ -20,11 +19,3 @@ class Sprint(models.Model):
         'res.users',
         string="Assigned User"
     )
-    state_id = fields.Many2one("sprint.state", string="State")
-
-
-class ProjectTask(models.Model):
-    _inherit = "project.task"
-
-    sprint_id = fields.Many2one('sprint', string="Sprint")
-
