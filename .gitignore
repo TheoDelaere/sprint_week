@@ -1,5 +1,20 @@
-# Compiled source
-#################
-*.pyc
-bc_sprint/__pycache__/__init__.cpython-312.pyc
-bc_sprint/models/__pycache__/__init__.cpython-312.pyc
+If changes still appear in your Git client, it might be because the files you want to ignore were already tracked by Git before you added them to `.gitignore`. Git does not automatically stop tracking files that are already being tracked, even if they match a pattern in `.gitignore`.
+
+To fix this, you need to untrack the files manually. Here's how:
+
+1. Remove the files from the Git index (but not from your working directory) using the following command:
+    ```bash
+    git rm --cached -r .
+    ```
+
+2. Re-add all files to the index:
+    ```bash
+    git add .
+    ```
+
+3. Commit the changes:
+    ```bash
+    git commit -m "Update .gitignore and remove tracked files"
+    ```
+
+After this, the files matching the patterns in `.gitignore` should no longer appear in your Git client.
