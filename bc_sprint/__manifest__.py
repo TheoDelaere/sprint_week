@@ -15,12 +15,12 @@
         'views/sprint_solo_views.xml',
         'views/sprint_state.xml',
         'views/project_task_custom.xml',
-        'views/custom_kanban_button.xml',
         'views/sprint_menu.xml',
     ],
     'assets': {
         'web.assets_backend':[
             '/bc_sprint/static/src/js/custom_kanban_button.js',
+            '/bc_sprint/static/src/xml/custom_kanban_button.xml',
         ]
     },
     'installable': True,
