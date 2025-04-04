@@ -4,4 +4,4 @@ class ProjectTask(models.Model):
     _inherit = "project.task"
 
     sprint_id = fields.Many2one('sprint', string="Sprint")
-    state_id = fields.Many2one('sprint.state', string="State", default="Nouveau")
+    state_id = fields.Many2one('sprint.state', string="State from Sprint", default="Nouveau")

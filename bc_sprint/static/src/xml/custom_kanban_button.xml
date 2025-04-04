@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <t t-name="button_pass.view_sprint_week_kanban.Buttons" t-inherit="web.KanbanView.Buttons" t-inherit-mode="primary">
+        <xpath expr="//div[hasclass('o_cp_buttons')]" position="inside">
+            <button type="button" class="btn btn-primary o-kanban-button-new" style="margin-left: 10px;" t-on-click="OnTestClick">
+                Week-Pass
+            </button>
+        </xpath>
+    </t>
+</odoo>
