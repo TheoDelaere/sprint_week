@@ -1,2 +1,3 @@
 bc_sprint/__pycache__/
 bc_sprint/models/__pycache__/
+*.pyc
