@@ -5,7 +5,7 @@
     'author': "Burniaux Consulting",
     'website': "https://www.burniauxconsulting.com/",
     'category': "Project",
-    'depends': ['base', 'project'],
+    'depends': ['base', 'project', 'web'],
     'data': [
         # security
         'security/ir.model.access.csv',
@@ -15,8 +15,14 @@
         'views/sprint_solo_views.xml',
         'views/sprint_state.xml',
         'views/project_task_custom.xml',
+        'views/custom_kanban_button.xml',
         'views/sprint_menu.xml',
     ],
+    'assets': {
+        'web.assets_backend':[
+            '/bc_sprint/static/src/js/custom_kanban_button.js',
+        ]
+    },
     'installable': True,
     'application': True,
 }
