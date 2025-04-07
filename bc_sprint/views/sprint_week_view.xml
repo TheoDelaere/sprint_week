@@ -6,7 +6,7 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
 
-            <kanban default_group_by="state_id" js_class="button_in_kanban">
+            <kanban default_group_by="state_id" js_class="button_in_kanban" groups="project.group_project_user" group_create="false" group_delete="false">
                 <field name="name"/>
                 <field name="sprint_id"/>
                 <templates>

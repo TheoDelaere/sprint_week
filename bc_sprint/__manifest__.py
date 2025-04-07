@@ -16,6 +16,9 @@
         'views/sprint_state.xml',
         'views/project_task_custom.xml',
         'views/sprint_menu.xml',
+
+        # datas
+        'data/sprint_state_data.xml',
     ],
     'assets': {
         'web.assets_backend':[
