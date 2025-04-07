@@ -10,5 +10,16 @@
             </xpath>
         </field>
     </record>
+
+    <record id="project_task_search_sprint_week" model="ir.ui.view">
+        <field name="name">project.task.search.custom</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='group_by_properties']" position="after">
+                <filter string="State ID" name="group_by_state_id" context="{'group_by': 'state_id'}"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
 

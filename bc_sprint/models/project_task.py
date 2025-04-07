@@ -1,5 +1,6 @@
 from odoo import models, fields, api, _
 
+
 class ProjectTask(models.Model):
     _inherit = "project.task"
     _order = "name desc"
@@ -9,6 +10,7 @@ class ProjectTask(models.Model):
 
     @api.model
     def _group_expand_states(self, states, domain):
-        return self.env['sprint.state'].search(domain=domain)
-
-
+        try:
+            return self.env['sprint.state'].search(domain=domain)
+        except Exception:
+            return self.env['sprint.state'].search([])
