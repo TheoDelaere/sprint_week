@@ -12,7 +12,7 @@
 
         # views
         'views/sprint_week_view.xml',
-        'views/sprint_solo_views.xml',
+        'views/sprint_history_views.xml',
         'views/sprint_state.xml',
         'views/project_task_custom.xml',
         'views/sprint_menu.xml',
