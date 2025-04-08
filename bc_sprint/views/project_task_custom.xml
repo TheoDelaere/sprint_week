@@ -8,6 +8,11 @@
             <xpath expr="//group/field[@name='tag_ids']" position="after">
                 <field name="state_id"/>
             </xpath>
+            <xpath expr="//page[@name='extra_info']" position="after">
+                <page name="testing_page" string="Testing">
+                    <field name="testing" type="html" options="{'collaborative': true, 'resizable': false}" placeholder="Add details about this task's tests..."/>
+                </page>
+            </xpath>
         </field>
     </record>
 

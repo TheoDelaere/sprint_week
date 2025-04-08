@@ -7,6 +7,7 @@ class ProjectTask(models.Model):
 
     sprint_id = fields.Many2one('sprint', string="Sprint")
     state_id = fields.Many2one('sprint.state', string="State from Sprint", group_expand='_group_expand_states')
+    testing = fields.Html(string="Testing", stored=True, copied=True, help="Testing description")
 
     @api.model
     def _group_expand_states(self, states, domain):
