@@ -15,3 +15,16 @@ class ProjectTask(models.Model):
             return self.env['sprint.state'].search(domain=domain)
         except Exception:
             return self.env['sprint.state'].search([])
+
+    def compute_something(self):
+        week1_state = self.env['sprint.state'].search([('name', '=', 'Week 1')])
+        week2_state = self.env['sprint.state'].search([('name', '=', 'Week 2')])
+        week3_state = self.env['sprint.state'].search([('name', '=', 'Week 3')])
+        
+        for task in self:
+            if task.state_id == week3_state:
+                task.state_id = week2_state.id
+            if task.state_id == week2_state.id:
+                task.state_id = week1_state.id
+            print(task.name, " = ", task.state_id.name)
+        return {"success": True}
