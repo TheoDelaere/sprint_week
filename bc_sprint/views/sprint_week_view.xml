@@ -194,7 +194,8 @@
         <field name="name">Sprints week</field>
         <field name="res_model">project.task</field>
         <field name="view_mode">kanban,list,gantt,form</field>
-        <field name="context">{'search_default_open_tasks':1,'search_default_group_by_state_id':1}</field>
+        <field name="context">{'search_default_open_tasks':1,'search_default_group_by_sprint_id':1}</field>
+        <field name="domain">[('sprint_id.name', 'in', ['Nouveau', 'Urgent', 'Week 1', 'Week 2', 'Week 3'])]</field>
         <field name="view_id" ref="view_sprint_week_kanban"/>
     </record>
 </odoo>

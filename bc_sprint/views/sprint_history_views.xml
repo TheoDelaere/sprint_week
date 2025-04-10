@@ -7,10 +7,6 @@
         <field name="arch" type="xml">
             <kanban>
                 <field name="name"/>
-                <field name="start_date"/>
-                <field name="end_date"/>
-                <field name="task_ids"/>
-                <field name="color"/>
                 <templates>
                     <t t-name="card">
                         <div t-attf-class="">
@@ -44,8 +40,6 @@
                         <h1>
                             <field name="name"/>
                         </h1>
-                        <field name="start_date"/>
-                        <field name="end_date"/>
                     </group>
                 </sheet>
             </form>
@@ -53,7 +47,7 @@
     </record>
 
     <!-- Action to display sprints in Kanban view -->
-    <record id="action_sprint_solo" model="ir.actions.act_window">
+    <record id="action_sprint_history" model="ir.actions.act_window">
         <field name="name">Sprints history</field>
         <field name="res_model">sprint</field>
         <field name="view_mode">kanban,list,form</field>

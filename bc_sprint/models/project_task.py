@@ -6,36 +6,35 @@ class ProjectTask(models.Model):
     _inherit = "project.task"
     _order = "name desc"
 
-    sprint_id = fields.Many2one('sprint', string="Sprint")
-    state_id = fields.Many2one('sprint.state', string="State from Sprint", group_expand='_group_expand_states')
+    sprint_id = fields.Many2one('sprint', string="Sprint", group_expand='_group_expand_sprints')
     testing = fields.Html(string="Testing", stored=True, copied=True, help="Testing description")
 
     @api.model
-    def _group_expand_states(self, states, domain):
+    def _group_expand_sprints(self, sprints, domain):
         allowed_names = ['Nouveau', 'Urgent', 'Week 1', 'Week 2', 'Week 3']
         try:
-            return self.env['sprint.state'].search([('name', 'in', allowed_names)])
+            return self.env['sprint'].search([('name', 'in', allowed_names)])
         except Exception:
-            return self.env['sprint.state'].search([])
+            return self.env['sprint'].search([])
 
     def compute_something(self):
-        week1_state = self.env['sprint.state'].search([('name', '=', 'Week 1')])
-        week2_state = self.env['sprint.state'].search([('name', '=', 'Week 2')])
-        week3_state = self.env['sprint.state'].search([('name', '=', 'Week 3')])
-        state_test = self.env['sprint.state'].search([('name', '=', date.today().strftime("%d-%m-%Y"))])
-        if state_test.name != date.today().strftime("%d-%m-%Y"):
-            new_state = self.env['sprint.state'].create({
+        week1_sprint = self.env['sprint'].search([('name', '=', 'Week 1')])
+        week2_sprint = self.env['sprint'].search([('name', '=', 'Week 2')])
+        week3_sprint = self.env['sprint'].search([('name', '=', 'Week 3')])
+        sprint_test = self.env['sprint'].search([('name', '=', date.today().strftime("%d-%m-%Y"))])
+        if sprint_test.name != date.today().strftime("%d-%m-%Y"):
+            new_sprint = self.env['sprint'].create({
                 'name': date.today().strftime("%d-%m-%Y"),
             })
         else :
-            new_state = state_test
+            new_sprint = sprint_test
         
         for task in self:
-            if task.state_id == week1_state:
-                task.state_id = new_state.id
-            elif task.state_id == week2_state:
-                task.state_id = week1_state.id
-            elif task.state_id == week3_state:
-                task.state_id = week2_state.id
-            print(task.name, " = ", task.state_id.name)
+            if task.sprint_id == week1_sprint:
+                task.sprint_id = new_sprint.id
+            elif task.sprint_id == week2_sprint:
+                task.sprint_id = week1_sprint.id
+            elif task.sprint_id == week3_sprint:
+                task.sprint_id = week2_sprint.id
+            print(task.name, " = ", task.sprint_id.name)
         return {"success": True}

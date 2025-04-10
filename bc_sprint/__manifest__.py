@@ -13,12 +13,11 @@
         # views
         'views/sprint_week_view.xml',
         'views/sprint_history_views.xml',
-        'views/sprint_state.xml',
         'views/project_task_custom.xml',
         'views/sprint_menu.xml',
 
         # datas
-        'data/sprint_state_data.xml',
+        'data/sprint_data.xml',
     ],
     'assets': {
         'web.assets_backend':[

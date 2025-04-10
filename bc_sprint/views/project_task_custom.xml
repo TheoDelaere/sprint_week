@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="project_task_form_stateadd" model="ir.ui.view">
-        <field name="name">project.task.form.custom</field>
+    <record id="project_task_form_sprint" model="ir.ui.view">
+        <field name="name">project.task.form.sprint</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <xpath expr="//group/field[@name='tag_ids']" position="after">
-                <field name="state_id"/>
+                <field name="sprint_id"/>
             </xpath>
             <xpath expr="//page[@name='extra_info']" position="after">
                 <page name="testing_page" string="Testing">
@@ -22,7 +22,7 @@
         <field name="inherit_id" ref="project.view_task_search_form"/>
         <field name="arch" type="xml">
             <xpath expr="//filter[@name='group_by_properties']" position="after">
-                <filter string="State ID" name="group_by_state_id" context="{'group_by': 'state_id'}"/>
+                <filter string="Sprint ID" name="group_by_sprint_id" context="{'group_by': 'sprint_id'}"/>
             </xpath>
         </field>
     </record>
