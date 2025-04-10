@@ -14,14 +14,7 @@
                             <div class="oe_kanban_body">
                                 <field style="font-weight: bold;" name="name"/>
                             </div>
-                            <div class="oe_kanban_footer">
-                                <div class="oe_kanban_footer_left">
-                                    #Left hand footer
-                                </div>
-                                <div class="oe_kanban_footer_right">
-                                    #Right hand footer
-                                </div>
-                            </div>
+                            
                             <div class="oe_clear"/>
                         </div>
                     </t>
