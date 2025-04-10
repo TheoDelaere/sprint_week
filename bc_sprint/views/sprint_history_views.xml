@@ -7,9 +7,10 @@
         <field name="arch" type="xml">
             <kanban>
                 <field name="name"/>
+                <field name="color"/>
                 <templates>
-                    <t t-name="card">
-                        <div t-attf-class="">
+                    <t t-name="kanban-box">
+                        <div t-attf-class="{{'oe_kanban_color_' + kanban_getcolor(record.color.raw_value) }} oe_kanban_card oe_kanban_global_click oe_semantic_html_override">
                             <div class="oe_kanban_body">
                                 <field style="font-weight: bold;" name="name"/>
                             </div>
@@ -39,6 +40,7 @@
                     <group>
                         <h1>
                             <field name="name"/>
+                            <!-- Hello le M!-->
                         </h1>
                     </group>
                 </sheet>
