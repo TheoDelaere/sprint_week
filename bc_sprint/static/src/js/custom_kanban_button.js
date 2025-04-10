@@ -1,18 +1,27 @@
 import {KanbanController} from '@web/views/kanban/kanban_controller';
 import {registry} from '@web/core/registry';
 import {kanbanView} from '@web/views/kanban/kanban_view';
-import {useService} from '@web/core/utils/hooks'
+import {useService} from '@web/core/utils/hooks';
+import {ConfirmationDialog} from '@web/core/confirmation_dialog/confirmation_dialog';
 
 export class PassKanbanController extends KanbanController {
     setup() {
         super.setup();
         this.orm = useService("orm");
+        this.dialog = useService("dialog");
     }
+
     async OnTestClick() {
-        console.log("OnTestClick triggered");
-        const task_ids = await this.orm.search("project.task", []);
-        const result = await this.orm.call("project.task", "compute_something", [task_ids], {});
-        console.log("result", result);
+        this.dialog.add(ConfirmationDialog, {
+            title: "Confirmation de l'action",
+            body: "Souhaitez-vous vraiment passer la semaine?",
+            confirmLabel: "Oui, Confirmer",
+            confirm: async (context) => {
+                const task_ids = await this.orm.search("project.task", []);
+                await this.orm.call("project.task", "compute_something", [task_ids], {});
+                location.reload();
+            },
+        });
     }
 }
 

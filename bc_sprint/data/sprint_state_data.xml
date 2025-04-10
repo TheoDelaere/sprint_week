@@ -4,22 +4,27 @@
         <record forcecreate="True" id="project_state_urgent" model="sprint.state">
             <field name="name">Urgent</field>
             <field name="color">1</field>
+            <field name="sequence">1</field>
         </record>
         <record forcecreate="True" id="project_state_new" model="sprint.state">
             <field name="name">Nouveau</field>
             <field name="color">2</field>
+            <field name="sequence">2</field>
         </record>
         <record forcecreate="True" id="project_state_week1" model="sprint.state">
             <field name="name">Week 1</field>
             <field name="color">3</field>
+            <field name="sequence">3</field>
         </record>
         <record forcecreate="True" id="project_state_week2" model="sprint.state">
             <field name="name">Week 2</field>
             <field name="color">4</field>
+            <field name="sequence">4</field>
         </record>
         <record forcecreate="True" id="project_state_week3" model="sprint.state">
             <field name="name">Week 3</field>
             <field name="color">5</field>
+            <field name="sequence">5</field>
         </record>
     </data>
 </odoo>
