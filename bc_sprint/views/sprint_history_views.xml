@@ -14,7 +14,7 @@
                             <div class="oe_kanban_body">
                                 <field style="font-weight: bold;" name="name"/>
                             </div>
-                            
+
                             <div class="oe_clear"/>
                         </div>
                     </t>
@@ -33,8 +33,12 @@
                     <group>
                         <h1>
                             <field name="name"/>
-                            <!-- Hello le M!-->
+
                         </h1>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="task_ids"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
