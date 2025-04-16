@@ -14,7 +14,6 @@
                             <div class="oe_kanban_body">
                                 <field style="font-weight: bold;" name="name"/>
                             </div>
-
                             <div class="oe_clear"/>
                         </div>
                     </t>
@@ -23,7 +22,7 @@
         </field>
     </record>
 
-    <!-- form view -->
+    <!-- Form view -->
     <record id="view_sprint_form" model="ir.ui.view">
         <field name="name">sprint.form</field>
         <field name="model">sprint</field>
@@ -33,22 +32,80 @@
                     <group>
                         <h1>
                             <field name="name"/>
-
                         </h1>
                         <group>
                             <field name="start_date"/>
-                            <field name="task_ids"/>
                         </group>
+                        <field name="task_ids" default_group_by="user_id">
+                            <kanban default_group_by="user_ids" class="o_kanban_mobile" editable="bottom" js_class="kanban_drag_drop">
+                                <field name="name"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div t-attf-class="{} oe_kanban_card oe_kanban_global_click oe_semantic_html_override">
+                                            <div class="oe_kanban_body">
+                                                <field style="font-weight: bold;" name="name"/>
+                                            </div>
+                                            <div class="oe_clear"/>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Action to display sprints in Kanban view -->
-    <record id="action_sprint_history" model="ir.actions.act_window">
-        <field name="name">Sprints history</field>
-        <field name="res_model">sprint</field>
-        <field name="view_mode">kanban,list,form</field>
+    <!-- List (list) view -->
+    <record id="view_sprint_list" model="ir.ui.view">
+        <field name="name">sprint.list</field>
+        <field name="model">sprint</field>
+        <field name="arch" type="xml">
+            <list string="Sprint List">
+                <field name="name"/>
+                <field name="start_date"/>
+                <!-- Add additional fields as needed -->
+            </list>
+        </field>
     </record>
+
+
+    <!-- Gantt view -->
+    <record id="view_sprint_gantt" model="ir.ui.view">
+        <field name="name">sprint.gantt</field>
+        <field name="model">sprint</field>
+        <field name="arch" type="xml">
+            <gantt string="Sprint Gantt" date_start="start_date" date_stop="end_date">
+                <field name="name"/>
+            </gantt>
+        </field>
+    </record>
+
+    <!-- Action to display sprints in multiple views (kanban, list, form, graph, gantt) -->
+    <record id="action_sprint_history" model="ir.actions.act_window">
+        <field name="name">Sprints History</field>
+        <field name="res_model">sprint</field>
+        <field name="view_mode">kanban,list,form,gantt</field>
+    </record>
+
+    <!-- Separate window action for a single sprint with alternative views -->
+    <record id="action_single_sprint" model="ir.actions.act_window">
+        <field name="name">Sprint Details</field>
+        <field name="res_model">sprint</field>
+        <field name="view_mode">form,graph,gantt</field>
+        <field name="view_id" ref="view_sprint_form"/>
+        <field name="target">current</field>
+    </record>
+    
+    <record id="action_single_sprint" model="ir.actions.act_window">
+        <field name="name">Sprint Details</field>
+        <field name="res_model">sprint</field>
+        <!-- The view_mode attribute lists multiple view types available at the same level -->
+        <field name="view_mode">form,graph,gantt</field>
+        <!-- The default view is the form view -->
+        <field name="view_id" ref="view_sprint_form"/>
+        <field name="target">current</field>
+    </record>
+    
 </odoo>
