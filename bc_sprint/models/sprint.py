@@ -50,6 +50,33 @@ class Sprint(models.Model):
             if self.week and self.year:
                 record.name = f"{self.year} Week {self.week if self.week > 9 else '0' + str(self.week)} sprint"
 
+    def action_graph(self):
+        return {
+            'name': 'Sprint Graph',
+            'view_type': 'form',
+            'view_mode': 'graph',
+            'res_model': 'project.task',
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', self.task_ids.ids)],
+            'context': {
+            'search_default_sprint_id': self.id,
+            }
+        }
+
+    def action_schedule(self):
+        return {
+            'name': 'Sprint Schedule',
+            'view_type': 'form',
+            'view_mode': 'gantt',
+            'res_model': 'project.task',
+            'type': 'ir.actions.act_window',
+            'domain': [
+                ('id', 'in', self.task_ids.ids),
+            ],
+            'context': {
+                'search_default_sprint_id': self.id,
+            }
+        }
             
 
 
