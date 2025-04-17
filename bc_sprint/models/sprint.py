@@ -47,7 +47,7 @@ class Sprint(models.Model):
     @api.depends('start_date')
     def compute_name(self):
         for record in self:
-            if self.week and self.year:
+            if record.week and record.year:
                 record.name = f"{self.year} Week {self.week if self.week > 9 else '0' + str(self.week)} sprint"
 
     def action_graph(self):

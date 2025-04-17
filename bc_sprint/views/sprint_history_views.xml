@@ -60,14 +60,6 @@
             </list>
         </field>
     </record>
-
-    <record id="project_sprint_form_dashboard" model="ir.ui.view">
-        <field name="name">sprint.dashboard</field>
-        <field name="model">sprint</field>
-        <field name="arch" type="xml">
-          
-        </field>
-      </record>
       
 
 
