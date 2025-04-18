@@ -1,5 +1,6 @@
 from datetime import date
 from odoo import models, fields, api, _
+from datetime import timedelta
 
 
 class ProjectTask(models.Model):
@@ -11,9 +12,15 @@ class ProjectTask(models.Model):
 
     @api.model
     def _group_expand_sprints(self, sprints, domain):
-        allowed_names = ['Nouveau', 'Urgent', 'Week 1', 'Week 2', 'Week 3']
         try:
-            return self.env['sprint'].search([('name', 'in', allowed_names)])
+            time_limit = date.today() + timedelta(days=21)
+            return self.env['sprint'].search([
+                "|", 
+                "&", 
+                ("end_date", ">", date.today()), 
+                ("end_date", "<=", time_limit), 
+                ("column_kanban", "=", True)
+            ], order='sequence asc, start_date asc')
         except Exception:
             return self.env['sprint'].search([])
 
