@@ -10,17 +10,6 @@ class ProjectTask(models.Model):
     sprint_id = fields.Many2one('sprint', string="Sprint", group_expand='_group_expand_sprints')
     testing = fields.Html(string="Testing", stored=True, copied=True, help="Testing description")
 
-    # def _compute_year_month_week(self):
-    #     for record in self:
-    #         if record.start_date:
-    #             date_obj = self.start_date
-    #             record.year = date_obj.year
-    #             record.week = date_obj.isocalendar()[1]
-    #             record.month = date_obj.month
-    #         else:
-    #             record.year = 0
-    #             record.week = 0
-
     def generate_next_3_sprints(self):
         # Try to create a sprint for this week and for the next 2 weeks
         today = date.today()
