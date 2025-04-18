@@ -53,7 +53,9 @@ class Sprint(models.Model):
     def compute_name(self):
         for record in self:
             if record.week and record.year:
-                record.name = f"{self.year} Week {self.week if self.week > 9 else '0' + str(self.week)} sprint"
+                record.name = f"{record.year} Week {record.week if record.week > 9 else '0' + str(record.week)} sprint"
+
+
 
     def action_graph(self):
         return {

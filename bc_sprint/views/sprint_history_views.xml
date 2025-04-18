@@ -30,19 +30,10 @@
             <form string="Sprint">
                 <header>
                     <button name="action_graph" type="object" string="View Graph" class="btn-primary"/>
-                </header>
-                <header>
                     <button name="action_schedule" type="object" string="View Schedule" class="btn-primary"/>
                 </header>
                 <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="start_date"/>
-                        <field name="end_date"/>
-                        <field name="year"/>
-                        <field name="week"/>
-                    </group>
-                    <field name="task_ids" widget="many2many_tags"/>
+                    <!--  -->
                 </sheet>
             </form>
         </field>
@@ -62,42 +53,12 @@
     </record>
       
 
-
-    <!-- Gantt view -->
-    <record id="view_sprint_gantt" model="ir.ui.view">
-        <field name="name">sprint.gantt</field>
-        <field name="model">sprint</field>
-        <field name="arch" type="xml">
-            <gantt string="Sprint Gantt" date_start="start_date" date_stop="end_date">
-                <field name="name"/>
-            </gantt>
-        </field>
-    </record>
-
     <!-- Action to display sprints in multiple views (kanban, list, form, graph, gantt) -->
     <record id="action_sprint_history" model="ir.actions.act_window">
         <field name="name">Sprints History</field>
         <field name="res_model">sprint</field>
-        <field name="view_mode">kanban,list,form,gantt</field>
+        <field name="view_mode">kanban,form</field>
     </record>
 
-    <!-- Separate window action for a single sprint with alternative views -->
-    <record id="action_single_sprint" model="ir.actions.act_window">
-        <field name="name">Sprint Details</field>
-        <field name="res_model">sprint</field>
-        <field name="view_mode">form,graph,gantt</field>
-        <field name="view_id" ref="view_sprint_form"/>
-        <field name="target">current</field>
-    </record>
-    
-    <record id="action_single_sprint" model="ir.actions.act_window">
-        <field name="name">Sprint Details</field>
-        <field name="res_model">sprint</field>
-        <!-- The view_mode attribute lists multiple view types available at the same level -->
-        <field name="view_mode">form,graph,gantt</field>
-        <!-- The default view is the form view -->
-        <field name="view_id" ref="view_sprint_form"/>
-        <field name="target">current</field>
-    </record>
     
 </odoo>
