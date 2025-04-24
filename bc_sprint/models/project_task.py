@@ -7,13 +7,15 @@ class ProjectTask(models.Model):
     _inherit = "project.task"
     _order = "name desc"
 
+    NUMBER_OF_SPRINTS_COLUMNS = 3
+
     sprint_id = fields.Many2one('sprint', string="Sprint", group_expand='_group_expand_sprints')
     testing = fields.Html(string="Testing", stored=True, copied=True, help="Testing description")
 
-    def generate_next_3_sprints(self):
+    def generate_next_n_sprints(self, n):
         # Try to create a sprint for this week and for the next 2 weeks
         today = date.today()
-        for i in range(3):
+        for i in range(n):
             sprint_date = today + timedelta(weeks=i)
             sprint_year = sprint_date.year
             sprint_week = sprint_date.isocalendar()[1]
@@ -29,7 +31,7 @@ class ProjectTask(models.Model):
 
     @api.model
     def _group_expand_sprints(self, sprints, domain):
-        self.generate_next_3_sprints()
+        self.generate_next_n_sprints(self.NUMBER_OF_SPRINTS_COLUMNS)
         try:
             time_limit = date.today() + timedelta(days=21)
             return self.env['sprint'].search([
