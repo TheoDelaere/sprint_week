@@ -10,13 +10,21 @@ class Sprint(models.Model):
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date", compute="_compute_end_date", store=True)
     year = fields.Integer(string="Year", compute="_compute_year_month_week", store=True)
-    month = fields.Integer(string="Month", compute="_compute_year_month_week", store=True) #useless field but kept for future use
+    month = fields.Integer(string="Month", compute="_compute_year_month_week", store=True) #useless field but kept for future use maybe to segment the year in trimesters or something like that
     week = fields.Integer(string="Week", compute="_compute_year_month_week", store=True)
     sequence = fields.Integer('Sequence', default=10, help="Used to sort the types.")
     color = fields.Integer(string="Color Index")
-    task_ids = fields.Many2many('project.task', 'sprint_id', string="Tasks")
+    task_history_ids = fields.Many2many('project.task', 'sprint_id', string="Tasks")
+    task_ids = fields.One2many('project.task', 'sprint_id', string="Tasks")
     column_kanban = fields.Boolean(string="Column", default=False, help="Used to sort the types.")
     sequence = fields.Integer('Sequence', default=20, help="Used to sort the types.")
+    archived = fields.Boolean(string="Archived", default=False, help="Used to sort the types.")
+
+    @api.constrains('archived')
+    def _check_archived(self):
+        for record in self:
+            if record.archived and not self.env.context.get('bypass_archived_check', False):
+                raise models.ValidationError("Archived sprints cannot be edited.")
 
     @api.onchange('start_date')
     def _start_date_on_monday(self):
