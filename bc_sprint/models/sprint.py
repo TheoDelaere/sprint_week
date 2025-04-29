@@ -90,15 +90,6 @@ class Sprint(models.Model):
             if record.archived and not self.env.context.get('bypass_archived_check', False):
                 raise ValidationError("Archived sprints cannot be edited.")
 
-    @api.onchange('start_date')
-    def _start_date_on_monday(self):
-        for record in self:
-            if record.start_date:
-                date_obj = record.start_date
-                if date_obj.weekday() != 0:
-                    date_obj -= timedelta(days=date_obj.weekday())
-                record.start_date = date_obj
-
     @api.depends('start_date')
     def _compute_end_date(self):
         for record in self:
