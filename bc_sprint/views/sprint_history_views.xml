@@ -14,7 +14,6 @@
                             <div class="oe_kanban_body">
                                 <field style="font-weight: bold;" name="name"/>
                             </div>
-                            
                             <div class="oe_clear"/>
                         </div>
                     </t>
@@ -23,28 +22,48 @@
         </field>
     </record>
 
-    <!-- form view -->
+    <!-- Form view -->
     <record id="view_sprint_form" model="ir.ui.view">
         <field name="name">sprint.form</field>
         <field name="model">sprint</field>
         <field name="arch" type="xml">
             <form string="Sprint">
+                <header>
+                    <button name="action_graph" type="object" string="View Graph" class="btn-primary"/>
+                    <button name="action_schedule" type="object" string="View Schedule" class="btn-primary"/>
+                    <button name="achive_sprint_and_pass_unfinished_tasks_to_next_sprint" type="object" string="archive" class="btn-primary"/>
+                </header>
                 <sheet>
                     <group>
-                        <h1>
-                            <field name="name"/>
-                            <!-- Hello le M!-->
-                        </h1>
+                        <field name="name" string="Sprint Name" readonly="1"/>
+                        <field name="start_date" string="Start Date" readonly="1"/>
+                        <field name="end_date" string="End Date" readonly="1"/>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Action to display sprints in Kanban view -->
-    <record id="action_sprint_history" model="ir.actions.act_window">
-        <field name="name">Sprints history</field>
-        <field name="res_model">sprint</field>
-        <field name="view_mode">kanban,list,form</field>
+    <!-- List (list) view -->
+    <record id="view_sprint_list" model="ir.ui.view">
+        <field name="name">sprint.list</field>
+        <field name="model">sprint</field>
+        <field name="arch" type="xml">
+            <list string="Sprint List">
+                <field name="name"/>
+                <field name="start_date"/>
+                
+            </list>
+        </field>
     </record>
+      
+
+    <!-- Action to display sprints in multiple views (kanban, list, form, graph, gantt) -->
+    <record id="action_sprint_history" model="ir.actions.act_window">
+        <field name="name">Sprints History</field>
+        <field name="res_model">sprint</field>
+        <field name="view_mode">kanban,form</field>
+    </record>
+
+    
 </odoo>

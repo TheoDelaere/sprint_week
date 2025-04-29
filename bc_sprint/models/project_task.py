@@ -16,7 +16,7 @@ class ProjectTask(models.Model):
         # Try to create a sprint for this week and for the next 2 weeks
         today = date.today()
         for i in range(n):
-            sprint_date = today + timedelta(weeks=i)
+            sprint_date = today + timedelta(days=(i * 7) - today.weekday())
             sprint_year = sprint_date.year
             sprint_week = sprint_date.isocalendar()[1]
             existing_sprint = self.env['sprint'].search([
@@ -27,6 +27,7 @@ class ProjectTask(models.Model):
             if not existing_sprint:
                 self.env['sprint'].create({
                     'start_date': sprint_date,
+                    'name': f"{sprint_year} Week {str(sprint_week).zfill(2)} sprint",
                 })
 
     @api.model
