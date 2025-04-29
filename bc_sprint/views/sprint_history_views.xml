@@ -46,6 +46,5 @@
         <field name="name">Sprints history</field>
         <field name="res_model">sprint</field>
         <field name="view_mode">kanban,list,form</field>
-        <field name="domain">[('name', 'not in', ['Nouveau', 'Urgent', 'Week 1', 'Week 2', 'Week 3'])]</field>
     </record>
 </odoo>

@@ -18,6 +18,7 @@
 
         # datas
         'data/sprint_data.xml',
+        'data/ir_cron_generate_next_3_sprints.xml',
     ],
     'assets': {
         'web.assets_backend':[

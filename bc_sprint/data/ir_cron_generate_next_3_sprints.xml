@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="ir_cron_generate_next_3_sprints" model="ir.cron">
+      <field name="name">Generate Next 3 Sprints</field>
+      <field name="model_id" ref="project.model_project_task"/>
+      <field name="state">code</field>
+      <field name="code">model.generate_next_n_sprints(3)</field>
+      <field name="user_id" ref="base.user_root"/>
+      <field name="interval_number">1</field>
+      <field name="interval_type">days</field>
+      <field name="priority">1</field>
+    </record>
+  </data>
+</odoo>
