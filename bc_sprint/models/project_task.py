@@ -33,7 +33,7 @@ class ProjectTask(models.Model):
     def _group_expand_sprints(self, sprints, domain):
         self.generate_next_n_sprints(self.NUMBER_OF_SPRINTS_COLUMNS)
         try:
-            time_limit = date.today() + timedelta(days=21)
+            time_limit = date.today() + timedelta(days=self.NUMBER_OF_SPRINTS_COLUMNS * 7)
             return self.env['sprint'].search([
                 "|", 
                 "&", 

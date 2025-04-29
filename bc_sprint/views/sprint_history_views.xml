@@ -31,6 +31,7 @@
                 <header>
                     <button name="action_graph" type="object" string="View Graph" class="btn-primary"/>
                     <button name="action_schedule" type="object" string="View Schedule" class="btn-primary"/>
+                    <button name="achive_sprint_and_pass_unfinished_tasks_to_next_sprint" type="object" string="archive" class="btn-primary"/>²
                 </header>
                 <sheet>
                     

@@ -26,6 +26,30 @@ class Sprint(models.Model):
         ('later', 'Later'),
     ], string="Column Type", default='sprint', help="Used to sort the types.", required=True)
 
+    def achive_sprint_and_pass_unfinished_tasks_to_next_sprint(self):
+        # can only be archived if the sprint is started
+        # the next sprint is indentified as this sprint start date +7 days
+        # the tasks are passed to the next sprint
+        # the sprint is archived
+        # the previous sprint must be archived
+
+        today = fields.Date.today()
+
+        for record in self:
+            if record.start_date<=today and not record.archived:
+                next_sprint = self.search([
+                    ('start_date', '=', record.start_date + timedelta(days=7))
+                ], limit=1)
+                if next_sprint:
+                    for task in record.task_ids:
+                        task.sprint_id = next_sprint.id
+                    record.archived = True
+                else:
+                    raise ValidationError("No next sprint found to pass tasks to.")
+            else:
+                raise ValidationError("Sprint cannot be archived if it is not started or already archived.")
+        return True
+
     @api.constrains('archived')
     def _check_archived(self):
         for record in self:
