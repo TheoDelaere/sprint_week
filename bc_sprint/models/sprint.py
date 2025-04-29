@@ -15,7 +15,7 @@ class Sprint(models.Model):
     _description = "Sprint"
     _order = "sequence asc, start_date asc"
 
-    name = fields.Char(string="Name", compute="compute_name", store=True)
+    name = fields.Char(string="Name", store=True)
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date", compute="_compute_end_date", store=True)
     year = fields.Integer(string="Year", compute="_compute_year_month_week", store=True)
@@ -116,15 +116,6 @@ class Sprint(models.Model):
                 record.month = record.start_date.month
             else:
                 record.year = record.week = record.month = 0
-
-    @api.depends('start_date')
-    def compute_name(self):
-        for record in self:
-            if record.week and record.year:
-                wk = str(record.week).zfill(2)
-                record.name = f"{record.year} Week {wk} sprint"
-            else:
-                record.name = False
 
     def action_graph(self):
         return {

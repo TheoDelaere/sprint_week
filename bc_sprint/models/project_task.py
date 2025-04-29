@@ -27,6 +27,7 @@ class ProjectTask(models.Model):
             if not existing_sprint:
                 self.env['sprint'].create({
                     'start_date': sprint_date,
+                    'name': f"{sprint_year} Week {str(sprint_week).zfill(2)} sprint",
                 })
 
     @api.model
