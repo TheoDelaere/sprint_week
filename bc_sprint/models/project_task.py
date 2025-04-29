@@ -38,8 +38,9 @@ class ProjectTask(models.Model):
                 "|", 
                 "&", 
                 ("end_date", ">", date.today()), 
-                ("end_date", "<=", time_limit), 
-                ("column_kanban", "=", True)
+                ("start_date", "<=", time_limit), 
+                ("column_type", "!=", "sprint"),
+                ("archived", "=", False)
             ], order='sequence asc, start_date asc')
         except Exception:
             return self.env['sprint'].search([])

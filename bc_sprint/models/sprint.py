@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from datetime import timedelta
+from odoo.exceptions import ValidationError
 
 class Sprint(models.Model):
     _name = "sprint"
@@ -16,15 +17,20 @@ class Sprint(models.Model):
     color = fields.Integer(string="Color Index")
     task_history_ids = fields.Many2many('project.task', 'sprint_id', string="Tasks")
     task_ids = fields.One2many('project.task', 'sprint_id', string="Tasks")
-    column_kanban = fields.Boolean(string="Column", default=False, help="Used to sort the types.")
-    sequence = fields.Integer('Sequence', default=20, help="Used to sort the types.")
+    sequence = fields.Integer('Sequence', default=21, help="Used to sort the types.")
     archived = fields.Boolean(string="Archived", default=False, help="Used to sort the types.")
+    column_type = fields.Selection([
+        ('sprint', 'Sprint'),
+        ('new', 'New'),
+        ('urgent', 'Urgent'),
+        ('later', 'Later'),
+    ], string="Column Type", default='sprint', help="Used to sort the types.", required=True)
 
     @api.constrains('archived')
     def _check_archived(self):
         for record in self:
             if record.archived and not self.env.context.get('bypass_archived_check', False):
-                raise models.ValidationError("Archived sprints cannot be edited.")
+                raise ValidationError("Archived sprints cannot be edited.")
 
     @api.onchange('start_date')
     def _start_date_on_monday(self):

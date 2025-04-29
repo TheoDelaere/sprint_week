@@ -33,7 +33,7 @@
                     <button name="action_schedule" type="object" string="View Schedule" class="btn-primary"/>
                 </header>
                 <sheet>
-                    <!--  -->
+                    
                 </sheet>
             </form>
         </field>
@@ -47,7 +47,7 @@
             <list string="Sprint List">
                 <field name="name"/>
                 <field name="start_date"/>
-                <!-- Add additional fields as needed -->
+                
             </list>
         </field>
     </record>
