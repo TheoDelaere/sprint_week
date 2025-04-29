@@ -37,8 +37,8 @@ class ProjectTask(models.Model):
             return self.env['sprint'].search([
                 "|", 
                 "&", 
-                ("end_date", ">", date.today()), 
-                ("start_date", "<=", time_limit), 
+                ("end_date", ">", date.today()),
+                ("start_date", "<=", time_limit),
                 ("column_type", "!=", "sprint"),
                 ("archived", "=", False)
             ], order='sequence asc, start_date asc')
