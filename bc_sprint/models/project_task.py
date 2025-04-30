@@ -9,7 +9,7 @@ class ProjectTask(models.Model):
 
     NUMBER_OF_SPRINTS_COLUMNS = 3
 
-    sprint_id = fields.Many2one('sprint', string="Sprint", group_expand='_group_expand_sprints', default=lambda self: self.env['sprint'].search([('name', '=', 'New')], limit=1))
+    sprint_id = fields.Many2one('sprint', string="Sprint", group_expand='_group_expand_sprints', default=lambda self: self.env['sprint'].search([('column_type', '=', 'new')], limit=1))
     testing = fields.Html(string="Testing", stored=True, copied=True, help="Testing description")
 
     def generate_next_n_sprints(self, n):
