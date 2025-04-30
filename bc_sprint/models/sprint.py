@@ -1,3 +1,5 @@
+from email.policy import default
+
 from odoo import models, fields, api
 from datetime import timedelta
 from odoo.exceptions import ValidationError
@@ -22,7 +24,7 @@ class Sprint(models.Model):
     month = fields.Integer(string="Month", compute="_compute_year_month_week", store=True)
     week = fields.Integer(string="Week", compute="_compute_year_month_week", store=True)
     sequence = fields.Integer('Sequence', default=21, help="Used to sort the types.")
-    color = fields.Integer(string="Color Index")
+    color = fields.Integer(string="Color Index", default=10, help="Used to sort archived type.")
     task_history_ids = fields.Many2many('project.task', 'sprint_id', string="Tasks")
     task_ids = fields.One2many('project.task', 'sprint_id', string="Tasks")
     archived = fields.Boolean(string="Archived", default=False, help="Used to sort the types.")
@@ -89,6 +91,11 @@ class Sprint(models.Model):
         for record in self:
             if record.archived and not self.env.context.get('bypass_archived_check', False):
                 raise ValidationError("Archived sprints cannot be edited.")
+
+    @api.onchange('archived')
+    def _onchange_archived(self):
+       if self.archived :
+            self.color = 1
 
     @api.depends('start_date')
     def _compute_end_date(self):
