@@ -1,6 +1,7 @@
 from datetime import date
 from odoo import models, fields, api, _
 from datetime import timedelta
+from odoo.exceptions import UserError, ValidationError
 
 
 class ProjectTask(models.Model):
@@ -29,6 +30,26 @@ class ProjectTask(models.Model):
                     'start_date': sprint_date,
                     'name': f"{sprint_year} Week {str(sprint_week).zfill(2)} sprint",
                 })
+
+    def write(self, vals):
+        res = super(ProjectTask, self).write(vals)
+
+        # Identifier les sprints nécessaires
+        sprint_urgent = self.env['sprint'].search([('name', '=', 'Urgent')], limit=1)
+        sprint_new = self.env['sprint'].search([('name', '=', 'New')], limit=1)
+
+        if not sprint_urgent or not sprint_new:
+            raise UserError(_("Please ensure the sprints 'Urgent' and 'New' exist."))
+
+        for task in self:
+            # Priorité High (1) & Sprint = New -> Urgent
+            if task.priority == '1' and (task.sprint_id == sprint_new or not task.sprint_id):
+                super(ProjectTask, task).write({'sprint_id': sprint_urgent.id})
+
+            # Priorité Low (0) & (Sprint = Urgent ou vide) -> New
+            elif task.priority == '0' and (not task.sprint_id or task.sprint_id == sprint_urgent):
+                super(ProjectTask, task).write({'sprint_id': sprint_new.id})
+        return res
 
     @api.model
     def _group_expand_sprints(self, sprints, domain):

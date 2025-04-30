@@ -1,9 +1,8 @@
 from email.policy import default
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import timedelta
-from odoo.exceptions import ValidationError
-
+from odoo.exceptions import UserError, ValidationError
 
 def _get_done_stage_ids(env):
     """
@@ -114,6 +113,7 @@ class Sprint(models.Model):
                 record.month = record.start_date.month
             else:
                 record.year = record.week = record.month = 0
+
 
     def action_graph(self):
         return {
