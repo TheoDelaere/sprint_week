@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
-        <function model="" name="">
-            <value eval=""/>
-        </function>
-    </data>
+  <data noupdate="1">
+    <function model="project.task" name="generate_next_n_sprints">
+      <value eval=""/>
+      <value eval="3"/>
+    </function>
+  </data>
 </odoo>
-  

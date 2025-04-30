@@ -29,10 +29,10 @@ class ProjectTask(models.Model):
                     'start_date': sprint_date,
                     'name': f"{sprint_year} Week {str(sprint_week).zfill(2)} sprint",
                 })
+            print(f"Created sprint for {sprint_date} with name {sprint_year} Week {str(sprint_week).zfill(2)} sprint")
 
     @api.model
     def _group_expand_sprints(self, sprints, domain):
-        self.generate_next_n_sprints(self.NUMBER_OF_SPRINTS_COLUMNS)
         try:
             time_limit = date.today() + timedelta(days=self.NUMBER_OF_SPRINTS_COLUMNS * 7)
             return self.env['sprint'].search([
