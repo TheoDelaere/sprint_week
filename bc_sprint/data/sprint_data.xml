@@ -13,5 +13,11 @@
             <field name="sequence">10</field>
             <field name="column_type">new</field>
         </record>
+        <record forcecreate="True" id="project_sprint_later" model="sprint">
+            <field name="name">Later</field>
+            <field name="color">2</field>
+            <field name="sequence">30</field>
+            <field name="column_type">later</field>
+        </record>
     </data>
 </odoo>
