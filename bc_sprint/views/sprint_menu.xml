@@ -6,5 +6,7 @@
               sequence="5"/>
     <menuitem id="sprints_history" name="Sprints history" action="action_sprint_history" parent="sprints_menu"
               sequence="10"/>
-    <menuitem id="sprints_release_menu" name="Release Notes" action="action_sprint_release" parent="sprints_menu" sequence="20"/>
+    <menuitem id="sprints_release_menu" name="Releases" parent="sprints_menu" sequence="20"/>
+    <menuitem id="sprints_release" name="Sprints Release" action="action_sprint_release" parent="sprints_release_menu" sequence="5"/>
+    <menuitem id="sprints_release_note" name="Release Notes" action="action_release_note" parent="sprints_release_menu" sequence="10"/>
 </odoo>

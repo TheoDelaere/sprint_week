@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sprint_release_note_list" model="ir.ui.view">
+        <field name="name">sprint.release.list</field>
+        <field name="model">sprint.release</field>
+        <field name="arch" type="xml">
+            <list string="Release Note list" duplicate="0">
+                <field name="name"/>
+                <field name="task_ids"/>
+                <field name="release_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="sprint_release_note_form" model="ir.ui.view">
+        <field name="name">sprint.release.note.form</field>
+        <field name="model">sprint.release</field>
+        <field name="arch" type="xml">
+            <form string="Sprint Release Note form" duplicate="0">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="project_id"/>
+                        <field name="release_date"/>
+                    </group>
+                    <notebook>
+                        <page string="Available Tasks">
+                            <field name="available_task_ids" widget="many2many_list"
+                                   domain="[('project_id', '=', parent.project_id.id), ('release_ids', '=', False)]">
+                                <list create="false" edit="false">
+                                    <field name="name"/>
+                                    <field name="project_id"/>
+                                    <field name="user_ids" widget="many2many_avatar_user" optional="show"/>
+                                    <button name="action_link_task"
+                                            type="object"
+                                            string="Add"
+                                            context="{'default_release_ids': parent.id}"
+                                            class="oe_highlight"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Linked Tasks">
+                            <field name="task_ids" class="no-delete-cross" widget="many2many_list"
+                                   domain="[('project_id', '=', parent.project_id.id)]">
+                                <list delete="false" create="false" edit="false">
+                                    <field name="name"/>
+                                    <field name="project_id"/>
+                                    <field name="user_ids" widget="many2many_avatar_user" optional="show"/>
+                                    <button name="action_unlink_task"
+                                            type="object"
+                                            string="Remove"
+                                            context="{'default_release_note_id': parent.id}"
+                                            class="oe_highlight"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_release_note" model="ir.actions.act_window">
+        <field name="name">Release Notes</field>
+        <field name="res_model">sprint.release</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No release note found. Let's create one!
+            </p>
+            <p>
+                Create release notes to visualize the content of your releases.
+            </p>
+        </field>
+    </record>
+</odoo>

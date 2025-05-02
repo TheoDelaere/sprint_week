@@ -11,7 +11,7 @@ class ProjectTask(models.Model):
     NUMBER_OF_SPRINTS_COLUMNS = 3
 
     sprint_id = fields.Many2one('sprint', string="Sprint", group_expand='_group_expand_sprints', default=lambda self: self.env['sprint'].search([('name', '=', 'New')], limit=1))
-    release_id = fields.Many2one('sprint.release', string="Release")
+    release_ids = fields.Many2many('sprint.release', string="Release")
     testing = fields.Html(string="Testing", store=True, copy=True, help="Testing description")
 
     def generate_next_n_sprints(self, n):
@@ -88,4 +88,31 @@ class ProjectTask(models.Model):
         #         task.sprint_id = week2_sprint.id
         #     print(task.name, " = ", task.sprint_id.name)
         return {"success": True}
+
+    def action_link_task(self):
+        """Link a task to the release note"""
+        release_id = self.env.context.get("default_release_ids")
+        if not release_id:
+            raise UserError(
+                "You need to save the release note before adding tasks to it."
+            )
+        self.write({"release_ids": [(4, release_id)]})
+
+    def action_unlink_task(self):
+        """Délier une tâche de la release note"""
+        release_id = self.env.context.get("default_release_id")
+        if release_id:
+            self.write({"release_ids": [(3, release_id)]})
+        else:
+            raise UserError("the release note is not found, try again.")
+
+    def write(self, vals):
+        if vals.get("release_ids"):
+            if self.release_ids:
+                new_release = vals.get("release_ids", [])
+                for command in new_release:
+                    if command[0] == 4 or command[0] == 6:
+                        raise UserError("you cannot link a task to multiple release notes")
+
+        return super(ProjectTask, self).write(vals)
         
