@@ -24,7 +24,7 @@ class Sprint(models.Model):
     week = fields.Integer(string="Week", compute="_compute_year_month_week", store=True)
     sequence = fields.Integer('Sequence', default=21, help="Used to sort the types.")
     color = fields.Integer(string="Color Index", default=10, help="Used to sort archived type.")
-    task_history_ids = fields.Many2many('project.task', 'sprint_id', string="Tasks")
+    task_history_ids = fields.Many2many('project.task', 'sprint_id', string="Tasks history")
     task_ids = fields.One2many('project.task', 'sprint_id', string="Tasks")
     archived = fields.Boolean(string="Archived", default=False, help="Used to sort the types.")
     column_type = fields.Selection([

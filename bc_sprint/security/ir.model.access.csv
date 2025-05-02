@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 bc_sprint.access_sprint,access_sprint,bc_sprint.model_sprint,base.group_user,1,1,1,1
 bc_sprint.access_project_task,access_project_task,bc_sprint.model_project_task,base.group_user,1,1,1,1
+bc_sprint.access_sprint_release,access_sprint_release,bc_sprint.model_sprint_release,base.group_user,1,1,1,1

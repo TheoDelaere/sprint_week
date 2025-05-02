@@ -14,6 +14,7 @@
         'views/sprint_week_view.xml',
         'views/sprint_history_views.xml',
         'views/project_task_custom.xml',
+        'views/sprint_release_view.xml',
         'views/sprint_menu.xml',
 
         # datas
