@@ -33,9 +33,15 @@ class ProjectTask(models.Model):
                 })
 
     def write(self, vals):
+        if vals.get("release_ids"):
+            if self.release_ids:
+                new_release = vals.get("release_ids", [])
+                for command in new_release:
+                    if command[0] in (4, 6):  # 4 = ajouter, 6 = remplacer
+                        raise UserError("You cannot link a task to multiple release notes.")
+
         res = super(ProjectTask, self).write(vals)
 
-        # Identifier les sprints nécessaires
         sprint_urgent = self.env['sprint'].search([('name', '=', 'Urgent')], limit=1)
         sprint_new = self.env['sprint'].search([('name', '=', 'New')], limit=1)
 
@@ -43,13 +49,14 @@ class ProjectTask(models.Model):
             raise UserError(_("Please ensure the sprints 'Urgent' and 'New' exist."))
 
         for task in self:
-            # Priorité High (1) & Sprint = New -> Urgent
+            # Priorité High (1) & Sprint = New ou vide -> affecter sprint Urgent
             if task.priority == '1' and (task.sprint_id == sprint_new or not task.sprint_id):
                 super(ProjectTask, task).write({'sprint_id': sprint_urgent.id})
 
-            # Priorité Low (0) & (Sprint = Urgent ou vide) -> New
+            # Priorité Low (0) & Sprint = Urgent ou vide -> affecter sprint New
             elif task.priority == '0' and (not task.sprint_id or task.sprint_id == sprint_urgent):
                 super(ProjectTask, task).write({'sprint_id': sprint_new.id})
+
         return res
 
     @api.model
@@ -91,28 +98,18 @@ class ProjectTask(models.Model):
 
     def action_link_task(self):
         """Link a task to the release note"""
-        release_id = self.env.context.get("default_release_ids")
-        if not release_id:
+        release_ids = self.env.context.get("default_release_ids")
+        if not release_ids:
             raise UserError(
                 "You need to save the release note before adding tasks to it."
             )
-        self.write({"release_ids": [(4, release_id)]})
+        self.write({"release_ids": [(4, release_ids)]})
 
     def action_unlink_task(self):
         """Délier une tâche de la release note"""
-        release_id = self.env.context.get("default_release_id")
-        if release_id:
-            self.write({"release_ids": [(3, release_id)]})
+        release_ids = self.env.context.get("default_release_ids")
+        if release_ids:
+            self.write({"release_ids": [(3, release_ids)]})
         else:
-            raise UserError("the release note is not found, try again.")
-
-    def write(self, vals):
-        if vals.get("release_ids"):
-            if self.release_ids:
-                new_release = vals.get("release_ids", [])
-                for command in new_release:
-                    if command[0] == 4 or command[0] == 6:
-                        raise UserError("you cannot link a task to multiple release notes")
-
-        return super(ProjectTask, self).write(vals)
+            raise UserError("The release note is not found, try again.")
         

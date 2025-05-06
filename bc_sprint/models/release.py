@@ -9,7 +9,7 @@ class SprintRelease(models.Model):
     name = fields.Char(string="Sprint Release", required=True)
     release_date = fields.Date(string="Release Date")
     project_id = fields.Many2one("project.project", string="Project")
-    task_ids = fields.Many2many("project.task", "release_id", string="Linked Tasks", copy=True)
+    task_ids = fields.Many2many("project.task", string="Linked Tasks", copy=True)
 
     available_task_ids = fields.Many2many(
         "project.task",
@@ -45,7 +45,7 @@ class SprintRelease(models.Model):
                 record.available_task_ids = self.env["project.task"].search(
                     [
                         ("project_id", "=", record.project_id.id),
-                        ("release_note_ids", "=", False)
+                        ("release_ids", "=", False)
                     ]
                 )
             else:
@@ -57,10 +57,7 @@ class SprintRelease(models.Model):
             record.task_ids = False
 
     def unlink(self):
-        """Prevents deletion if send_status is enabled"""
-        for record in self:
-            if record.send_status:
-                raise UserError(
-                    "You cannot delete a Release Note that has already been sent."
-                )
+
+        """Ajouter condition à la supression"""
+
         return super(SprintRelease, self).unlink()

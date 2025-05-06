@@ -40,8 +40,8 @@
                             </field>
                         </page>
                         <page string="Linked Tasks">
-                            <field name="task_ids" class="no-delete-cross" widget="many2many_list"
-                                   domain="[('project_id', '=', parent.project_id.id)]">
+                            <field name="task_ids" widget="many2many_list"
+                                   domain="[('project_id', '=', project_id)]">
                                 <list delete="false" create="false" edit="false">
                                     <field name="name"/>
                                     <field name="project_id"/>
@@ -49,7 +49,7 @@
                                     <button name="action_unlink_task"
                                             type="object"
                                             string="Remove"
-                                            context="{'default_release_note_id': parent.id}"
+                                            context="{'default_release_ids': parent.id}"
                                             class="oe_highlight"/>
                                 </list>
                             </field>
