@@ -12,6 +12,7 @@ class ProjectTask(models.Model):
 
     sprint_id = fields.Many2one('sprint', string="Sprint", group_expand='_group_expand_sprints', default=lambda self: self.env['sprint'].search([('name', '=', 'New')], limit=1))
     release_ids = fields.Many2many('sprint.release', string="Release")
+    release_note_ids = fields.Many2many('release.note', string="Release Note")
     testing = fields.Html(string="Testing", store=True, copy=True, help="Testing description")
 
     def generate_next_n_sprints(self, n):
@@ -33,9 +34,9 @@ class ProjectTask(models.Model):
                 })
 
     def write(self, vals):
-        if vals.get("release_ids"):
-            if self.release_ids:
-                new_release = vals.get("release_ids", [])
+        if vals.get("release_note_ids"):
+            if self.release_note_ids:
+                new_release = vals.get("release_note_ids", [])
                 for command in new_release:
                     if command[0] in (4, 6):  # 4 = ajouter, 6 = remplacer
                         raise UserError("You cannot link a task to multiple release notes.")
@@ -98,18 +99,18 @@ class ProjectTask(models.Model):
 
     def action_link_task(self):
         """Link a task to the release note"""
-        release_ids = self.env.context.get("default_release_ids")
-        if not release_ids:
+        release_note_ids = self.env.context.get("default_release_note_ids")
+        if not release_note_ids:
             raise UserError(
                 "You need to save the release note before adding tasks to it."
             )
-        self.write({"release_ids": [(4, release_ids)]})
+        self.write({"release_note_ids": [(4, release_note_ids)]})
 
     def action_unlink_task(self):
         """Délier une tâche de la release note"""
-        release_ids = self.env.context.get("default_release_ids")
-        if release_ids:
-            self.write({"release_ids": [(3, release_ids)]})
+        release_note_ids = self.env.context.get("default_release_note_ids")
+        if release_note_ids:
+            self.write({"release_note_ids": [(3, release_note_ids)]})
         else:
             raise UserError("The release note is not found, try again.")
         

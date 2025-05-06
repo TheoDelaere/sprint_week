@@ -8,7 +8,7 @@ class SprintRelease(models.Model):
 
     name = fields.Char(string="Sprint Release", required=True)
     release_date = fields.Date(string="Release Date")
-    project_id = fields.Many2one("project.project", string="Project")
+    project_id = fields.Many2many("project.project", string="Project")
     task_ids = fields.Many2many("project.task", string="Linked Tasks", copy=True)
 
     available_task_ids = fields.Many2many(
@@ -24,8 +24,8 @@ class SprintRelease(models.Model):
 
     user_ids = fields.Many2many(
         "res.users",
-        relation="release_note_user_rel",
-        column1="release_note_id",
+        relation="sprint_release_user_rel",
+        column1="sprint_release_id",
         column2="user_id",
         string="Assignees",
         default=lambda self: [(6, 0, [self.env.user.id])],
