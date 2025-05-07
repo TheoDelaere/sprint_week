@@ -39,6 +39,10 @@
                 </header>
                 <sheet>
                     <group>
+                        <button name="action_print_sprint_release"
+                        type="object"
+                        string="Print"
+                        class="oe_highlight"/>
                         <field name="name" string="Sprint Name" readonly="1"/>
                         <field name="start_date" string="Start Date" readonly="1"/>
                         <field name="end_date" string="End Date" readonly="1"/>
@@ -67,7 +71,6 @@
             <list string="Sprint List">
                 <field name="name"/>
                 <field name="start_date"/>
-                
             </list>
         </field>
     </record>

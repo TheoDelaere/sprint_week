@@ -19,6 +19,10 @@
             <form string="Sprint Release Note form" duplicate="0">
                 <sheet>
                     <group>
+                        <button name="action_print_release_note"
+                        type="object"
+                        string="Print"
+                        class="oe_highlight"/>
                         <field name="name"/>
                         <field name="project_id"/>
                         <field name="release_date"/>

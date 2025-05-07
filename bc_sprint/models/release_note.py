@@ -1,5 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from odoo.tools import pdf
+import base64
 
 class ReleaseNote(models.Model):
     _name = "release.note"
@@ -8,8 +10,9 @@ class ReleaseNote(models.Model):
 
     name = fields.Char(string="Release notes", required=True)
     release_date = fields.Date(string="Release Date")
-    project_id = fields.Many2one("project.project", string="Project")
     task_ids = fields.Many2many("project.task", string="Linked Tasks", copy=True)
+    project_id = fields.Many2many("project.project", string="Project")
+    attachment_id = fields.Many2one('ir.attachment', string="PDF Attachment")
 
     available_task_ids = fields.Many2many(
         "project.task",
@@ -61,3 +64,29 @@ class ReleaseNote(models.Model):
         """Ajouter condition à la supression"""
 
         return super(ReleaseNote, self).unlink()
+
+    def action_print_release_note(self):
+        """Print the release note"""
+        pdf_content = self._generate_pdf_for_release_note()
+        pdf_base64 = base64.b64encode(pdf_content)
+
+        attachment = self.env['ir.attachment'].create({
+            'name': f"Release_Note_{self.name}.pdf",
+            'datas': pdf_base64,
+            'res_model': self._name,
+            'res_id': self.id,
+            'mimetype': 'application/pdf',
+            'type': 'binary'
+        })
+        self.attachment_id = attachment.id  # Stocke l'ID de l'attachement pour le récupérer plus tard
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+
+    def _generate_pdf_for_release_note(self):
+        report = self.env.ref("bc_sprint.action_release_note_pdf_report")
+        pdf_content, _ = report._render_qweb_pdf(
+            "bc_sprint.action_release_note_pdf_report", res_ids=self.ids)
+        return pdf_content

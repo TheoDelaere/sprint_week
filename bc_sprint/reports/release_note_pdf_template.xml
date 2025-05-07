@@ -1,14 +1,14 @@
 <odoo>
-    <record id="action_sprint_release_pdf_report" model="ir.actions.report">
-        <field name="name">Sprint Release Report</field>
-        <field name="model">sprint</field>
+    <record id="action_release_note_pdf_report" model="ir.actions.report">
+        <field name="name">Release Note Report</field>
+        <field name="model">release.note</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">bc_sprint.report_sprint_release_pdf</field>
-        <field name="report_file">bc_sprint.report_sprint_release_pdf</field>
+        <field name="report_name">bc_sprint.report_release_note_pdf</field>
+        <field name="report_file">bc_sprint.report_release_note_pdf</field>
         <field name="paperformat_id" ref="bc_sprint.paperformat_sprint_release"/>
     </record>
 
-    <template id="bc_sprint.report_sprint_release_pdf">
+    <template id="bc_sprint.report_release_note_pdf">
         <t t-call="web.basic_layout">
             <div style="font-family: roboto;">
                 <div class="header"
@@ -38,7 +38,7 @@
                 </div>
                 <div style="text-align: center; margin-top: 5px;">
                     <h1 style="color: #3ABFB7; font-weight: bold;">
-                        Sprint release:
+                        Release Note:
                         <t t-out="docs.name"/>
                     </h1>
                 </div>

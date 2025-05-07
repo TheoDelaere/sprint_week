@@ -10,10 +10,13 @@ class ProjectTask(models.Model):
 
     NUMBER_OF_SPRINTS_COLUMNS = 3
 
+    documentation = fields.Html(string="Documentation", store=True, copy=True, help="Documentation description")
+    testing = fields.Html(string="Testing", store=True, copy=True, help="Testing description")
+
     sprint_id = fields.Many2one('sprint', string="Sprint", group_expand='_group_expand_sprints', default=lambda self: self.env['sprint'].search([('name', '=', 'New')], limit=1))
     release_ids = fields.Many2many('sprint.release', string="Release")
     release_note_ids = fields.Many2many('release.note', string="Release Note")
-    testing = fields.Html(string="Testing", store=True, copy=True, help="Testing description")
+
 
     def generate_next_n_sprints(self, n):
         # Try to create a sprint for this week and for the next 2 weeks
@@ -66,8 +69,8 @@ class ProjectTask(models.Model):
         try:
             time_limit = date.today() + timedelta(days=self.NUMBER_OF_SPRINTS_COLUMNS * 7)
             return self.env['sprint'].search([
-                "|", 
-                "&", 
+                "|",
+                "&",
                 ("end_date", ">", date.today()),
                 ("start_date", "<=", time_limit),
                 ("column_type", "!=", "sprint"),
@@ -113,4 +116,3 @@ class ProjectTask(models.Model):
             self.write({"release_note_ids": [(3, release_note_ids)]})
         else:
             raise UserError("The release note is not found, try again.")
-        

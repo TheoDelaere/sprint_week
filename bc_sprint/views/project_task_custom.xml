@@ -9,6 +9,9 @@
                 <field name="sprint_id"/>
             </xpath>
             <xpath expr="//page[@name='extra_info']" position="after">
+                <page name="documentation_page" string="Documentation">
+                    <field name="documentation" type="html" options="{'collaborative': true, 'resizable': false}" placeholder="Add details about this task's documentation..."/>
+                </page>
                 <page name="testing_page" string="Testing">
                     <field name="testing" type="html" options="{'collaborative': true, 'resizable': false}" placeholder="Add details about this task's tests..."/>
                 </page>

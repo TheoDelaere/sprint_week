@@ -21,6 +21,10 @@
         # datas
         'data/sprint_data.xml',
         'data/ir_cron_generate_next_3_sprints.xml',
+
+        #reports
+        'reports/paperformat_release_note.xml',
+        'reports/sprint_release_pdf_template.xml',
     ],
     'assets': {
         'web.assets_backend':[

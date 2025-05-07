@@ -1,8 +1,8 @@
-from email.policy import default
-
 from odoo import models, fields, api, _
 from datetime import timedelta
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import pdf
+import base64
 
 def _get_done_stage_ids(env):
     """
@@ -15,6 +15,9 @@ class Sprint(models.Model):
     _name = "sprint"
     _description = "Sprint"
     _order = "sequence asc, start_date asc"
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Each Sprint name must be unique!')
+    ]
 
     name = fields.Char(string="Name", store=True)
     start_date = fields.Date(string="Start Date")
@@ -24,9 +27,13 @@ class Sprint(models.Model):
     week = fields.Integer(string="Week", compute="_compute_year_month_week", store=True)
     sequence = fields.Integer('Sequence', default=21, help="Used to sort the types.")
     color = fields.Integer(string="Color Index", default=10, help="Used to sort archived type.")
+    archived = fields.Boolean(string="Archived", default=False, help="Used to sort the types.")
+
+    attachment_id = fields.Many2one('ir.attachment', string="PDF Attachment")
     task_history_ids = fields.Many2many('project.task', 'sprint_id', string="Tasks history")
     task_ids = fields.One2many('project.task', 'sprint_id', string="Tasks")
-    archived = fields.Boolean(string="Archived", default=False, help="Used to sort the types.")
+    project_id = fields.Many2one("project.project", string="Project")
+
     column_type = fields.Selection([
         ('sprint', 'Sprint'),
         ('new', 'New'),
@@ -34,9 +41,13 @@ class Sprint(models.Model):
         ('later', 'Later'),
     ], string="Column Type", default='sprint', help="Used to sort the types.", required=True)
 
-    _sql_constraints = [
-        ('name_uniq', 'unique(name)', 'Each Sprint name must be unique!')
-    ]
+    user_id = fields.Many2one(
+        "res.users", string="Created By", default=lambda self: self.env.user
+    )
+
+    company_id = fields.Many2one(
+        "res.company", string="Company", required=True, default=lambda self: self.env.company.id
+    )
 
     def achive_sprint_and_pass_unfinished_tasks_to_next_sprint(self):
         """
@@ -136,3 +147,29 @@ class Sprint(models.Model):
             'domain': [('id', 'in', self.task_ids.ids)],
             'context': {'search_default_sprint_id': self.id},
         }
+
+    def action_print_sprint_release(self):
+        """Print the sprint_release"""
+        pdf_content = self._generate_pdf_for_sprint_release()
+        pdf_base64 = base64.b64encode(pdf_content)
+
+        attachment = self.env['ir.attachment'].create({
+            'name': f"Sprint_release{self.name}.pdf",
+            'datas': pdf_base64,
+            'res_model': self._name,
+            'res_id': self.id,
+            'mimetype': 'application/pdf',
+            'type': 'binary'
+        })
+        self.attachment_id = attachment.id  # Stocke l'ID de l'attachement pour le récupérer plus tard
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+
+    def _generate_pdf_for_sprint_release(self):
+        report = self.env.ref("bc_sprint.action_sprint_release_pdf_report")
+        pdf_content, _ = report._render_qweb_pdf(
+            "bc_sprint.action_sprint_release_pdf_report", res_ids=self.ids)
+        return pdf_content
