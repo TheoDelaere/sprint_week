@@ -44,9 +44,16 @@
                 </div>
                 <table style="width:100%; margin-top:15px;">
                     <t t-foreach="docs.task_ids" t-as="task">
+                        <t t-set="current_index" t-value="task_index"/>
                         <tr>
                             <td>
-                                <h2 style="text-align: center; margin-top: 8px;">
+                                <t t-if="current_index == 0 or task.project_id != docs.task_ids[current_index - 1].project_id">
+                                    <h2 style="text-align: center; text-decoration: underline; margin-top: 9px; font-weight: bold; color: #3ABFB7;">
+                                        Project :
+                                        <t t-out="task.project_id.name"/>
+                                    </h2>
+                                </t>
+                                <h2 style="margin-top: 8px; text-decoration: underline;">
                                     <strong style="color: #3ABFB7;">Task :</strong>
                                     <t t-out="task.name"/>
                                 </h2>

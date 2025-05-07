@@ -11,7 +11,7 @@ class ReleaseNote(models.Model):
     name = fields.Char(string="Release notes", required=True)
     release_date = fields.Date(string="Release Date")
     task_ids = fields.Many2many("project.task", string="Linked Tasks", copy=True)
-    project_id = fields.Many2many("project.project", string="Project")
+    project_id = fields.Many2one("project.project", string="Project")
     attachment_id = fields.Many2one('ir.attachment', string="PDF Attachment")
 
     available_task_ids = fields.Many2many(
