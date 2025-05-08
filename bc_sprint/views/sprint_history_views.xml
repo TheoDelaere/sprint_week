@@ -35,21 +35,26 @@
                 <header>
                     <button name="action_graph" type="object" string="View Graph" class="btn-primary"/>
                     <button name="action_schedule" type="object" string="View Schedule" class="btn-primary"/>
-                    <button name="achive_sprint_and_pass_unfinished_tasks_to_next_sprint" type="object" string="archive" class="btn-primary"/>
+                    <button name="achive_sprint_and_pass_unfinished_tasks_to_next_sprint" type="object" string="archive"
+                            class="btn-primary"/>
                 </header>
                 <sheet>
                     <group>
                         <button name="action_print_sprint_release"
-                        type="object"
-                        string="Print"
-                        class="oe_highlight"/>
+                                type="object"
+                                string="Print"
+                                class="oe_highlight"
+                                invisible="pdf and archived"/>
                         <field name="name" string="Sprint Name" readonly="1"/>
                         <field name="start_date" string="Start Date" readonly="1"/>
                         <field name="end_date" string="End Date" readonly="1"/>
+                        <field name="pdf_name" invisible="1"/>
+                        <field name="pdf" widget="binary" filename="pdf_name"/>
                     </group>
                     <notebook>
                         <page string="Linked tasks">
-                            <field name="task_ids" widget="many2many_list" domain="[('sprint_id', '=', self.name)]" context="{'default_order': 'project_id asc'}">
+                            <field name="task_ids" widget="many2many_list" domain="[('sprint_id', '=', self.name)]"
+                                   context="{'default_order': 'project_id asc'}">
                                 <list create="false" edit="false">
                                     <field name="name"/>
                                     <field name="project_id" string="Project"/>
@@ -74,7 +79,7 @@
             </list>
         </field>
     </record>
-      
+
 
     <!-- Action to display sprints in multiple views (kanban, list, form, graph, gantt) -->
     <record id="action_sprint_history" model="ir.actions.act_window">
@@ -83,5 +88,5 @@
         <field name="view_mode">kanban,form</field>
     </record>
 
-    
+
 </odoo>

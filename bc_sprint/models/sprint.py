@@ -30,6 +30,8 @@ class Sprint(models.Model):
     archived = fields.Boolean(string="Archived", default=False, help="Used to sort the types.")
 
     attachment_id = fields.Many2one('ir.attachment', string="PDF Attachment")
+    pdf = fields.Binary(string="PDF", readonly=True)
+    pdf_name = fields.Char(string="PDF Name")
     task_history_ids = fields.Many2many('project.task', 'sprint_id', string="Tasks history")
     task_ids = fields.One2many('project.task', 'sprint_id', string="Tasks")
     project_id = fields.Many2one("project.project", string="Project")
@@ -64,6 +66,7 @@ class Sprint(models.Model):
 
             # 2) Archive this sprint
             sprint.with_context(bypass_archived_check=True).write({'archived': True})
+            sprint.write({'color': 1})
 
             # 3) Archive previous sprint, if exists
             prev_start = sprint.start_date - timedelta(days=7)
@@ -162,6 +165,8 @@ class Sprint(models.Model):
             'type': 'binary'
         })
         self.attachment_id = attachment.id  # Stocke l'ID de l'attachement pour le récupérer plus tard
+        self.pdf = pdf_base64
+        self.pdf_name = attachment.name
         return {
             'type': 'ir.actions.act_url',
             'url': f'/web/content/{attachment.id}?download=true',
