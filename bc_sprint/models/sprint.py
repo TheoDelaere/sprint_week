@@ -4,6 +4,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import pdf
 import base64
 
+
 def _get_done_stage_ids(env):
     """
     Helper to fetch all stage IDs that are considered 'done' (folded stages).
@@ -107,7 +108,7 @@ class Sprint(models.Model):
 
     @api.onchange('archived')
     def _onchange_archived(self):
-       if self.archived :
+        if self.archived:
             self.color = 1
 
     @api.depends('start_date')
@@ -127,7 +128,6 @@ class Sprint(models.Model):
                 record.month = record.start_date.month
             else:
                 record.year = record.week = record.month = 0
-
 
     def action_graph(self):
         return {
@@ -149,6 +149,17 @@ class Sprint(models.Model):
             'type': 'ir.actions.act_window',
             'domain': [('id', 'in', self.task_ids.ids)],
             'context': {'search_default_sprint_id': self.id},
+        }
+
+    def action_kanban(self):
+        return {
+            'name': 'Sprint Kanban',
+            'view_type': 'form',
+            'view_mode': 'kanban',
+            'res_model': 'project.task',
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', self.task_ids.ids)],
+            'context': {'search_default_sprint_id': self.id, 'group_by': 'assigned_user_id'},
         }
 
     def action_print_sprint_release(self):

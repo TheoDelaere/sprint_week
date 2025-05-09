@@ -2,6 +2,7 @@ from datetime import date
 from odoo import models, fields, api, _
 from datetime import timedelta
 from odoo.exceptions import UserError, ValidationError
+from odoo.fields import Command
 
 
 class ProjectTask(models.Model):
@@ -17,6 +18,14 @@ class ProjectTask(models.Model):
     release_ids = fields.Many2many('sprint.release', string="Release")
     release_note_ids = fields.Many2many('release.note', string="Release Note")
 
+    assigned_user_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Assigned User",
+        help="User assigned to this task.",
+        compute="_compute_assigned_user_id",
+        inverse="_inverse_assigned_user_id",
+        store=True
+    )
 
     def generate_next_n_sprints(self, n):
         # Try to create a sprint for this week and for the next 2 weeks
@@ -60,7 +69,6 @@ class ProjectTask(models.Model):
             # Priorité Low (0) & Sprint = Urgent ou vide -> affecter sprint New
             elif task.priority == '0' and (not task.sprint_id or task.sprint_id == sprint_urgent):
                 super(ProjectTask, task).write({'sprint_id': sprint_new.id})
-
         return res
 
     @api.model
@@ -116,3 +124,15 @@ class ProjectTask(models.Model):
             self.write({"release_note_ids": [(3, release_note_ids)]})
         else:
             raise UserError("The release note is not found, try again.")
+
+    @api.depends('user_ids')
+    def _compute_assigned_user_id(self):
+        for task in self:
+            task.assigned_user_id = task.user_ids[:1]
+
+    def _inverse_assigned_user_id(self):
+        for task in self:
+            if task.assigned_user_id:
+                task.user_ids = [Command.set([task.assigned_user_id.id])]
+            else:
+                task.user_ids = [Command.clear()]
