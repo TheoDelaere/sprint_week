@@ -52,7 +52,7 @@ class Sprint(models.Model):
         "res.company", string="Company", required=True, default=lambda self: self.env.company.id
     )
 
-    def achive_sprint_and_pass_unfinished_tasks_to_next_sprint(self):
+    def archive_sprint_and_pass_unfinished_tasks_to_next_sprint(self):
         """
         Archive this sprint (and the previous one), and move unfinished tasks to the next sprint.
         """

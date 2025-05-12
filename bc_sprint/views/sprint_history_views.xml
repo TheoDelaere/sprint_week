@@ -36,7 +36,7 @@
                     <button name="action_kanban" type="object" string="Assign worker" class="btn-primary"/>
                     <button name="action_graph" type="object" string="View Graph" class="btn-primary"/>
                     <button name="action_schedule" type="object" string="View Schedule" class="btn-primary"/>
-                    <button name="achive_sprint_and_pass_unfinished_tasks_to_next_sprint" type="object" string="archive"
+                    <button name="archive_sprint_and_pass_unfinished_tasks_to_next_sprint" type="object" string="archive"
                             class="btn-primary"/>
                 </header>
                 <sheet>
