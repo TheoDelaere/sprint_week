@@ -25,6 +25,7 @@
         #reports
         'reports/paperformat_release_note.xml',
         'reports/sprint_release_pdf_template.xml',
+        'reports/release_note_pdf_template.xml',
     ],
     'assets': {
         'web.assets_backend':[
