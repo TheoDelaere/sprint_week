@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_my_kpi" name="Portal Mes KPIs" inherit_id="portal.portal_layout">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <t t-if="page_name == 'my_kpi'">
+                <div class="container py-4">
+                    <h2 class="mb-4">Mes indicateurs clés</h2>
+
+                    <!-- Factures -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h4>Mes Factures Clients</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Référence</th>
+                                        <th>Date</th>
+                                        <th>Client</th>
+                                        <th class="text-end">Montant Total</th>
+                                        <th class="text-end">État</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="user_partner" t-value="request.env.user.partner_id"/>
+                                    <t t-foreach="invoices" t-as="inv">
+                                        <t t-if="inv.partner_id == user_partner">
+                                            <tr>
+                                                <td>
+                                                    <a t-attf-href="/my/invoices/#{inv.id}">
+                                                        <t t-esc="inv.name"/>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="inv.invoice_date"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="inv.partner_id.name"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-esc="inv.amount_total"/>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span t-esc="inv.payment_state"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-if="not invoices.filtered(lambda inv: inv.partner_id == user_partner)">
+                                        <tr>
+                                            <td colspan="5" class="text-center">Aucune facture trouvée.</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Bons de commande (Achats) -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h4>Bons de commandes (Achats)</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Référence</th>
+                                        <th>Date de commande</th>
+                                        <th>Fournisseur</th>
+                                        <th class="text-end">Montant Total</th>
+                                        <th class="text-end">État</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="purchases" t-as="po">
+                                        <tr>
+                                            <td>
+                                                <a t-attf-href="/my/purchase/#{po.id}">
+                                                    <span t-esc="po.name"/>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span t-esc="po.date_order"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="po.partner_id.name"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-esc="po.amount_total"/>
+                                            </td>
+                                            <td class="text-end">
+                                                <span t-esc="dict(po._fields['state'].selection).get(po.state)"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr t-if="not purchases">
+                                        <td colspan="5" class="text-center">Aucune commande d'achat trouvée.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

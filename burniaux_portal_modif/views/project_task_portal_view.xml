@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="portal_task_list_custom" name="Portal Task List" inherit_id="project.portal_tasks_list" priority="20">
+        <xpath expr="." position="replace">
+            <table class="table-custom">
+                <thead>
+                    <tr class="border-custom">
+                        <th class="border-custom">
+                            Project manager :
+                            <t t-out="project.user_id.name"/>
+                            <img t-if="project.user_id.avatar_1920"
+                                 t-att-src="image_data_uri(project.user_id.avatar_1920)"
+                                 class="avatar-img"
+                                 alt="User's avatar"/>
+                        </th>
+                        <th class="border-custom">
+                            Project :
+                            <t t-out="project.name"/>
+                        </th>
+                        <th>
+                            Project's status :
+                            <t t-out="project.stage_id.name"/>
+                        </th>
+                    </tr>
+                    <tr class="border-custom">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                Donnée tableau
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button class="dropdown-item section-toggler" data-section="tasks_section"
+                                            type="button">Tasks
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item section-toggler" data-section="documents_section"
+                                            type="button">Documents
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item section-toggler" data-section="pv_section"
+                                            type="button">PV de réunion
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item section-toggler" data-section="releases_section"
+                                            type="button">Release notes
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <table class="table-custom content-section" id="pv_section" style="display: none;">
+                            <td>
+                                <select name="update_choice" id="update_choice">
+                                    <t t-foreach="project.update_ids" t-as="update">
+                                        <option t-att-value="update.id">
+                                            <t t-out="update.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                                <t t-foreach="project.update_ids" t-as="update">
+                                    <tr t-att-id="'update_desc_' + str(update.id)" class="update-desc"
+                                        style="display: none;">
+                                        <td>
+                                            <t t-out="update.description"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </td>
+                        </table>
+                        <t t-if="True">
+                            <table class="table-custom content-section" id="documents_section" style="display: none;">
+                                <tbody>
+                                    <t t-foreach="project.document_ids" t-as="document">
+                                        <tr>
+                                            <td>
+                                                <a t-att-href="document.access_url">
+                                                    <t t-out="document.name"/>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <table class="table-custom content-section" id="releases_section" style="display: none;">
+                            <tbody>
+                                <t t-foreach="project.release_note_ids" t-as="release_note">
+                                    <tr>
+                                        <td>
+                                            <t t-if="release_note.attachment_id">
+                                                <a t-att-href="'/web/content/%s' % release_note.attachment_id.id"
+                                                   target="_blank">
+                                                    <t t-out="release_note.name"/>
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-out="release_note.name"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <table class="table-custom content-section" id="tasks_section">
+                            <thead>
+                                <tr>
+                                    <!-- Allows overrides in modules -->
+                                    <t t-set="group_by_in_header_list"
+                                       t-value="['priority', 'state', 'project_id', 'stage_id', 'milestone_id']"/>
+                                    <t t-set="number_of_header" t-value="8"/>
+                                    <!-- Computes the right colspan once and use it everywhere -->
+                                    <t t-set="grouped_tasks_colspan"
+                                       t-value="number_of_header - 1 if groupby in group_by_in_header_list else number_of_header"/>
+                                    <t t-set="grouped_tasks_colspan"
+                                       t-value="grouped_tasks_colspan if allow_milestone else grouped_tasks_colspan - 1"/>
+                                    <th t-attf-colspan="{{2 if groupby != 'priority' else 1}}"/>
+                                    <th>Name</th>
+                                    <th>Assignees</th>
+                                    <th t-if="groupby != 'project_id' and multiple_projects">Project</th>
+                                    <th t-if="groupby != 'state'"/>
+                                    <th t-if="groupby != 'stage_id'" class="text-end">Stage</th>
+                                </tr>
+                            </thead>
+                            <t t-foreach="grouped_tasks" t-as="tasks">
+                                <tbody t-if="tasks">
+                                    <tr t-if="not groupby == 'none'">
+                                        <th t-if="groupby == 'project_id' and multiple_projects"
+                                            t-attf-colspan="{{grouped_tasks_colspan}}">
+                                            <!-- This div is necessary for documents_project_sale -->
+                                            <div name="project_name" class="d-flex w-100 align-items-center">
+                                                <span t-if="tasks[0].sudo().project_id"
+                                                      t-field="tasks[0].sudo().project_id.name"/>
+                                                <span t-else="">No Project</span>
+                                            </div>
+                                        </th>
+                                        <th t-if="groupby == 'stage_id'"
+                                            t-attf-colspan="{{grouped_tasks_colspan}}">
+                                            <!-- This div is necessary for documents_project_sale -->
+                                            <div name="stage_name" class="d-flex w-100 align-items-center">
+                                                <span class="text-truncate"
+                                                      t-field="tasks[0].sudo().stage_id.name"/>
+                                            </div>
+                                        </th>
+                                        <th t-if="groupby == 'priority'"
+                                            t-attf-colspan="{{grouped_tasks_colspan}}">
+                                            <span class="text-truncate" t-field="tasks[0].sudo().priority"/>
+                                        </th>
+                                        <th t-if="groupby == 'state'"
+                                            t-attf-colspan="{{grouped_tasks_colspan}}">
+                                            <span class="text-truncate" t-field="tasks[0].sudo().state"/>
+                                        </th>
+                                        <th t-if="groupby == 'partner_id'"
+                                            t-attf-colspan="{{grouped_tasks_colspan}}">
+                                            <span t-if="tasks[0].sudo().partner_id" class="text-truncate"
+                                                  t-field="tasks[0].sudo().partner_id.name"/>
+                                            <span t-else="">No Customer</span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                                <tbody t-if="tasks">
+                                    <t t-foreach="tasks" t-as="task">
+                                        <tr class="tr-custom">
+                                            <td class="text-start">
+                                                #
+                                                <span t-esc="task.id"/>
+                                            </td>
+                                            <td t-if="groupby != 'priority'" class="text-end">
+                                                <t t-call="project.portal_my_tasks_priority_widget_template"/>
+                                            </td>
+                                            <td>
+                                                <a t-attf-href="/my/#{task_url}/#{task.id}?{{ keep_query() }}">
+                                                    <span t-att-title="task.name" t-field="task.name"/>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <t t-set="assignees" t-value="task.sudo().user_ids"/>
+                                                <div t-if="assignees" class="flex-nowrap ps-3">
+                                                    <img class="rounded o_portal_contact_img me-2"
+                                                         t-attf-src="#{image_data_uri(assignees[:1].avatar_128)}"
+                                                         alt="User" style="width: 20px; height: 20px;"/>
+                                                    <span t-att-title="'\n'.join(assignees.mapped('name'))">
+                                                        <span t-field="assignees[:1].name"/>
+                                                        <span t-if="len(assignees) &gt; 1"
+                                                              class="badge ms-1 rounded-pill bg-light">+
+                                                            <span t-out="len(assignees) - 1"/>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td t-if="groupby != 'project_id' and multiple_projects">
+                                                <span title="Current project of the task"
+                                                      t-out="task.project_id.name"/>
+                                            </td>
+                                            <td t-if="groupby != 'state'" align="right" class="align-middle">
+                                                <t t-call="project.portal_my_tasks_state_widget_template">
+                                                    <t t-set="path" t-value="'tasks'"/>
+                                                </t>
+                                            </td>
+                                            <td t-if="groupby != 'stage_id'" class="text-end lh-1">
+                                                <span class="fw-normal o_text_overflow"
+                                                      t-attf-title="#{task.stage_id.name}"
+                                                      t-out="task.stage_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </t>
+                        </table>
+                    </tr>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+</odoo>
+

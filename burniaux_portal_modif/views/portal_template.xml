@@ -1,0 +1,74 @@
+<odoo>
+    <template id="portal_my_home" inherit_id="portal.portal_my_home" name="My Portal">
+        <xpath expr="//div[hasclass('o_portal_my_home')]" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('o_portal_my_home')]" position="after">
+            <div class="d-flex flex-wrap" id="my_custom_portal_cards">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="icon" t-value="'/web/static/img/folder.svg'"/>
+                    <t t-set="title">Projects</t>
+                    <t t-set="url" t-value="'/my/projects'"/>
+                    <t t-set="text">Follow the evolution of your projects</t>
+                    <t t-set="placeholder_count" t-value="'project_count'"/>
+                    <t t-set="config_card" t-value="True"/>
+                </t>
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="icon" t-value="'/burniaux_portal_modif/static/src/img/maintenances.png'"/>
+                    <t t-set="title">Maintenance</t>
+                    <t t-set="url" t-value="'/my/maintenance'"/>
+                    <t t-set="text">Follow the maintenance of your projects</t>
+                    <t t-set="config_card" t-value="True"/>
+                </t>
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="icon" t-value="'/burniaux_portal_modif/static/src/img/Burniaux_Consulting_Square.png'"/>
+                    <t t-set="title">Assistance</t>
+                    <t t-set="url" t-value="'/my/assistance'"/>
+                    <t t-set="text">Get assistance from Burniaux Consulting</t>
+                    <t t-set="config_card" t-value="True"/>
+                </t>
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="icon" t-value="'/burniaux_portal_modif/static/src/img/factures.png'"/>
+                    <t t-set="title">KPI</t>
+                    <t t-set="url" t-value="'/my/kpi'"/>
+                    <t t-set="text">See your invoices</t>
+                    <t t-set="config_card" t-value="True"/>
+                </t>
+            </div>
+            <div class="container mt-4">
+                <t t-set="user" t-value="request.env.user"/>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <h3 class="card-title text-primary">Total des heures du mois</h3>
+                        <p class="fs-4 fw-bold">
+                            <t t-esc="user.get_total_hours_for_client_projects()"/> Heure(s)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <t t-set="user" t-value="request.env.user"/>
+            <div class="container mt-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <h3 class="card-title text-primary">Total des heures des 6 derniers mois</h3>
+                        <canvas id="myChart" t-att-data-total-hours="user.get_total_hours_for_past_six_months()"></canvas>
+                        <p class="fs-4 fw-bold">
+                            Mois
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <h3 class="card-title text-primary">Progression des tâches</h3>
+                        <p class="fs-4 fw-bold">
+                            <t t-esc="user.get_completed_client_tasks()"/> / 
+                            <t t-esc="user.get_total_client_tasks()"/> tâches complétées
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

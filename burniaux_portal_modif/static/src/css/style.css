@@ -1,0 +1,201 @@
+.hover-background-gray:hover {
+    background-color: rgb(218, 224, 229);
+}
+.hover-background-gray {
+    background-color: rgb(248, 249, 250);
+}
+.half-circle-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.half-circle-card {
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    overflow: hidden;
+}
+#my_custom_portal_cards img{
+    height: 64px;
+    width: 64px;
+}
+#my_custom_portal_cards div{
+    margin-top: 8px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.half-circle {
+    width: 150px;
+    height: 75px;
+    background-color: #f0f0f0;
+    border-top-left-radius: 75px;
+    border-top-right-radius: 75px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rectangle {
+    width: 200px;
+    padding: 8px 0;
+    background-color: #ddd;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.half-circle:hover +.rectangle , .rectangle:hover{
+    background-color: #f0f0f0;
+}
+.rectangle-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+.rectangle-text {
+    font-size: 12px;
+}
+
+.table-custom {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #3ABFB7;
+    text-align: center;
+}
+
+.table-custom table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-custom th, .table-custom td {
+    padding: 5px;
+    text-align: center;
+}
+
+.table-custom tr:nth-child(even) {
+    background-color: #c2e1fc;
+}
+
+.border-custom-td{
+    border: 1px solid #3ABFB7;
+    vertical-align: top;
+}
+
+.border-custom {
+    border: 1px solid #3ABFB7;
+}
+
+.avatar-img {
+    max-height: 16px;
+    border: 1px solid #3ABFB7;
+    border-radius: 30px;
+}
+.contact-form {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form .form-group {
+    margin-bottom: 15px;
+}
+
+.contact-form label {
+    font-weight: bold;
+    color: #333;
+}
+
+.contact-form .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.contact-form textarea {
+    resize: none;
+}
+
+.contact-form button {
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.contact-form button:hover {
+    background-color: #0056b3;
+}
+/* Style principal */
+.assistance-container {
+    background: #f9f9f9;
+    padding: 40px 0;
+}
+
+.assistance-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: rgb(58, 191, 183);
+}
+
+.assistance-description {
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Formulaire */
+.assistance-form {
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Champs */
+.assistance-form .form-group {
+    margin-bottom: 15px;
+}
+
+.assistance-form label {
+    font-weight: bold;
+    color: #333;
+}
+
+.assistance-form .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Bouton */
+.assistance-button {
+    display: block;
+    width: 100%;
+    background-color: rgb(58, 191, 183);
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.assistance-button:hover {
+    background-color: #369e98;
+}
